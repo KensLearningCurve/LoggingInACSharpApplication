@@ -7,7 +7,12 @@ using Microsoft.Extensions.Logging;
 
 ServiceCollection services = new();
 
-services.AddLogging(configure => configure.AddConsole());
+services.AddLogging(configure => configure.AddDebug())
+    .Configure<LoggerFilterOptions>(options =>
+    {
+        options.MinLevel = LogLevel.Debug;
+        options.AddFilter("Microsoft.EntityFrameworkCore.*", LogLevel.Warning);
+    });
 
 services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=LoggingDemo;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
 
