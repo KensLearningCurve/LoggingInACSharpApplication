@@ -3,15 +3,24 @@ using LoggingExample.Domain.Interfaces;
 using LoggingExample.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 ServiceCollection services = new();
 
-services.AddDbContext<DataContext>(x => x.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=LoggingDemo;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
+services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=logging.db"));
 
 services.AddScoped<IMovieService, MovieService>();
 services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+services.AddLogging(configure => configure.AddConsole());
+
 ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+using (var scope = serviceProvider.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+    dbContext.Database.Migrate();
+}
 
 IMovieService movieService = serviceProvider.GetRequiredService<IMovieService>();
 
