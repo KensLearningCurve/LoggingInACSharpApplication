@@ -3,15 +3,8 @@ using LoggingExample.Domain.Models;
 
 namespace LoggingExample.Business;
 
-public class MovieService : IMovieService
+public class MovieService(IRepository<Movie> repository) : IMovieService
 {
-    private readonly IRepository<Movie> repository;
-
-    public MovieService(IRepository<Movie> repository)
-    {
-        this.repository=repository;
-    }
-
     public void Create(Movie movie)
     {
         repository.Create(movie);
@@ -21,7 +14,7 @@ public class MovieService : IMovieService
     {
         Movie? toDelete = Get(id);
 
-        if (toDelete == null)
+        if (toDelete is null)
             return;
 
         repository.Delete(toDelete);
@@ -29,5 +22,5 @@ public class MovieService : IMovieService
 
     public Movie? Get(int id) => repository.GetAll().FirstOrDefault(x => x.Id == id);
 
-    public IEnumerable<Movie> GetAll() => repository.GetAll().ToList();
+    public IEnumerable<Movie> GetAll() => [.. repository.GetAll()];
 }

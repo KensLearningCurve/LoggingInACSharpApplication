@@ -2,15 +2,8 @@
 
 namespace LoggingExample.Business;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T>(DataContext dataContext) : IRepository<T> where T : class
 {
-    private readonly DataContext dataContext;
-
-    public Repository(DataContext dataContext)
-    {
-        this.dataContext = dataContext;
-    }
-
     public void Create(T entity)
     {
         dataContext.Add(entity);
