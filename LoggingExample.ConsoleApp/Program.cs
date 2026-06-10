@@ -24,7 +24,7 @@ ServiceProvider serviceProvider = services.BuildServiceProvider();
 IMovieService movieService = serviceProvider.GetRequiredService<IMovieService>();
 
 Console.WriteLine("First run:");
-List<Movie> allMovies = movieService.GetAll().ToList();
+List<Movie> allMovies = [.. movieService.GetAll()];
 
 foreach (Movie movie in allMovies)
 {
@@ -36,7 +36,7 @@ Console.WriteLine("Press key");
 Console.ReadLine();
 
 Console.WriteLine("Second run:");
-List<Movie> sortedMovies = movieService.GetAll().OrderBy(x => x.Title).ToList();
+List<Movie> sortedMovies = [.. movieService.GetAll().OrderBy(x => x.Title)];
 
 foreach (Movie movie in sortedMovies)
 {

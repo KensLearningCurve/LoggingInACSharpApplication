@@ -4,17 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace LoggingExample.Business;
 
-public class MovieService : IMovieService
+public class MovieService(IRepository<Movie> repository) : IMovieService
 {
-    private readonly IRepository<Movie> repository;
-    private readonly ILogger logger;
-
-    public MovieService(IRepository<Movie> repository, ILogger<MovieService> logger)
-    {
-        this.repository=repository;
-        this.logger=logger;
-    }
-
     public void Create(Movie movie)
     {
         repository.Create(movie);
@@ -24,7 +15,7 @@ public class MovieService : IMovieService
     {
         Movie? toDelete = Get(id);
 
-        if (toDelete == null)
+        if (toDelete is null)
             return;
 
         repository.Delete(toDelete);

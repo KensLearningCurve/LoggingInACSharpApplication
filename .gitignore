@@ -10,3 +10,6 @@
 /LoggingExample.ConsoleApp/obj
 /LoggingExample.Domain/bin/Debug/net6.0
 /LoggingExample.Domain/obj
+/LoggingExample.Business/bin/Debug/net10.0
+/LoggingExample.ConsoleApp/bin/Debug/net10.0
+/LoggingExample.Domain/bin/Debug/net10.0
