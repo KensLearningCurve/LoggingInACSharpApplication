@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LoggingExample.Business;
 
-public class MovieService(IRepository<Movie> repository) : IMovieService
+public class MovieService(IRepository<Movie> repository, ILogger<MovieService> logger) : IMovieService
 {
     public void Create(Movie movie)
     {
